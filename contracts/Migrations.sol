@@ -1,4 +1,4 @@
-pragma solidity ^0.4.2;
+pragma solidity ^0.4.4;
 
 contract Migrations {
   address public owner;
@@ -13,7 +13,7 @@ contract Migrations {
   }
 
   function setCompleted(uint completed) restricted {
-    last_completed_migration = completed;
+    last_completed_migration = 1; // force ocntract migration
   }
 
   function upgrade(address new_address) restricted {
