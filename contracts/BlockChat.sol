@@ -12,7 +12,7 @@ contract BlockChat is BlockChatInterface {
   function BlockChat(address currentStore, bool _changeableStore) {
     deployer = msg.sender;
     changeableStore = _changeableStore;
-    
+
     // If a store is provided set it, if not deploy new store
     setMessageStore(currentStore != 0x0 ? currentStore : address(new MessageStore()));
   }

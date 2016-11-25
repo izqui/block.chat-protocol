@@ -5,7 +5,7 @@ contract Interfaces {}
 
 contract BlockChatInterface {
   MessageStoreInterface public messageStore;
-  
+
   function sendMessage(string payload, uint64 timestamp, bytes32 recipientHash) public;
   event NewMessage(address sender, uint256 messageID, uint64 timestamp, bytes32 recipientHash);
 }
