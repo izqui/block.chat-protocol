@@ -17,6 +17,17 @@ contract BlockChat is BlockChatInterface {
     setMessageStore(currentStore != 0x0 ? currentStore : address(new MessageStore()));
   }
 
+  function migrateContract(address newBlockchat) {
+    if (msg.sender != deployer) {
+      throw;
+    }
+
+    messageStore.setNewBlockchat(newBlockchat);
+    BlockChatMigrated(newBlockchat);
+
+    suicide(deployer);
+  }
+
   function setMessageStore(address newAddress) {
     // Only deployer, when changes are allowed or store hasn't been set yet
     if (msg.sender == deployer && changeableStore || address(messageStore) == 0x0) {
