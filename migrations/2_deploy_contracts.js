@@ -16,9 +16,10 @@ module.exports = function(deployer) {
     return deployer.deploy(BlockChat, messageStore, keyStore, true);
   })
   .then(() => {
-    if (oldBlockchat)
-      console.log('Suiciding and migrating old blockchat permissions...')
+    if (oldBlockchat) {
+      console.log('Suiciding and migrating old blockchat permissions...');
       return oldBlockchat.migrateContract(BlockChat.deployed().address);
+    }
     return Promise.resolve();
   })
   .catch((e) => console.log('Error deploying BlockChat', e));

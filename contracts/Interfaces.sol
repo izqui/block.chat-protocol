@@ -21,9 +21,9 @@ contract MessageStoreInterface {
 }
 
 contract KeyStoreInterface {
-  function register(string username, bytes32 publicKey);
-  function registerPublicKey(bytes32 publicKey);
+  function register(string username, string publicKey);
+  function registerPublicKey(string publicKey);
 
-  function getPublicKeyForUsername(string username) constant returns (bytes32);
-  function getPublicKeyForAddress(address addr) constant returns (bytes32);
+  function getPublicKeyForUsername(string username) constant returns (string);
+  function getPublicKeyForAddress(address addr) constant returns (string);
 }
