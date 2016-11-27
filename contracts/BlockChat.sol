@@ -2,19 +2,23 @@ pragma solidity ^0.4.4;
 
 import "Interfaces.sol";
 import "MessageStore.sol";
+import "KeyStore.sol";
 
 contract BlockChat is BlockChatInterface {
 
   MessageStoreInterface public messageStore;
-  address deployer;
-  bool changeableStore;
+  KeyStoreInterface public keyStore;
 
-  function BlockChat(address currentStore, bool _changeableStore) {
+  address deployer;
+  bool changeableStores;
+
+  function BlockChat(address _messageStore, address _keyStore, bool _changeableStores) {
     deployer = msg.sender;
-    changeableStore = _changeableStore;
+    changeableStores = _changeableStores;
 
     // If a store is provided set it, if not deploy new store
-    setMessageStore(currentStore != 0x0 ? currentStore : address(new MessageStore()));
+    setMessageStore(_messageStore != 0x0 ? _messageStore : address(new MessageStore()));
+    setKeyStore(_keyStore != 0x0 ? _keyStore : address(new KeyStore()));
   }
 
   function migrateContract(address newBlockchat) {
@@ -30,8 +34,17 @@ contract BlockChat is BlockChatInterface {
 
   function setMessageStore(address newAddress) {
     // Only deployer, when changes are allowed or store hasn't been set yet
-    if (msg.sender == deployer && changeableStore || address(messageStore) == 0x0) {
+    if (msg.sender == deployer && changeableStores || address(messageStore) == 0x0) {
       messageStore = MessageStoreInterface(newAddress);
+    } else {
+      throw;
+    }
+  }
+
+  function setKeyStore(address newAddress) {
+    // Only deployer, when changes are allowed or store hasn't been set yet
+    if (msg.sender == deployer && changeableStores || address(keyStore) == 0x0) {
+      keyStore = KeyStoreInterface(newAddress);
     } else {
       throw;
     }
